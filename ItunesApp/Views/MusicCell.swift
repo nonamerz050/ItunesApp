@@ -17,13 +17,13 @@ class MusicCell: UICollectionViewCell {
     
     var albums: Albums! {
         didSet {
-            albumNameLabel.text = albums.collectionName
-            artistNameLabel.text = albums.artistName
-            songsCountLabel.text = "\(albums.trackCount ?? 0) Songs"
             
             guard let url = URL(string: albums.artworkUrl100 ?? "") else { return }
             
             albumImageView.sd_setImage(with: url, completed: nil)
+            albumNameLabel.text = albums.collectionName
+            artistNameLabel.text = albums.artistName
+            songsCountLabel.text = "\(albums.trackCount ?? 0) Songs"
         }
     }
 }

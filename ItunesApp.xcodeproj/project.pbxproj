@@ -93,8 +93,8 @@
 		52BDB74627CD4AF8006D722F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				52BDB75527CD8B90006D722F /* DetailsAlbumController.swift */,
 				52BDB75727CD90DF006D722F /* SearchViewController.swift */,
+				52BDB75527CD8B90006D722F /* DetailsAlbumController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

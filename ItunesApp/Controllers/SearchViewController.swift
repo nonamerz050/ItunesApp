@@ -9,10 +9,10 @@ import UIKit
 import Alamofire
 
 class SearchViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
-    
     let searchController = UISearchController(searchResultsController: nil)
     let cellId = "cellId"
     
+    var timer: Timer?
     var albums = [Albums]()
     
     override func viewDidLoad() {
@@ -32,7 +32,7 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
     
     //MARK: - UISearchBar
     
-    fileprivate func setupSearchBar() {
+    private func setupSearchBar() {
         self.definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -40,13 +40,22 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        APIService.shared.fetchAlbums(searchText: searchText) { music in
-            self.albums = music.sorted(by: { $0.collectionName < $1.collectionName })
-            self.collectionView.reloadData()
-        }
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
+            APIService.shared.fetchAlbums(searchText: searchText) { music in
+                self.albums = music.sorted(by: { $0.collectionName < $1.collectionName })
+                self.collectionView.reloadData()
+            }
+        })
+        
     }
     
     //MARK: - UICollectionView
+    
+    private func setupCollectionView() {
+        let nib = UINib(nibName: "MusicCell", bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: cellId)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize.init(width: view.frame.width, height: 132)
@@ -57,11 +66,6 @@ class SearchViewController: UICollectionViewController, UICollectionViewDelegate
         let album = self.albums[indexPath.row]
         detailsAlbumController.albumName = album
         navigationController?.pushViewController(detailsAlbumController, animated: true)
-    }
-    
-    fileprivate func setupCollectionView() {
-        let nib = UINib(nibName: "MusicCell", bundle: nil)
-        collectionView.register(nib, forCellWithReuseIdentifier: cellId)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

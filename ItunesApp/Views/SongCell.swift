@@ -10,18 +10,11 @@ import SDWebImage
 
 class SongCell: UITableViewCell {
 
-    @IBOutlet weak var albumImageView: UIImageView!
-    @IBOutlet weak var artistNameLabel: UILabel!
-    @IBOutlet weak var songNameLabel: UILabel!
+    @IBOutlet weak var trackLabel: UILabel!
     
     var songs: Albums! {
         didSet {
-//            songNameLabel.text = songs.trackName
-            artistNameLabel.text = "\(songs.trackNumber ?? 0). \(songs.trackName ?? "")"
-
-            guard let url = URL(string: songs.artworkUrl100 ?? "") else { return }
-            
-            albumImageView.sd_setImage(with: url, completed: nil)
+            trackLabel.text = "\(songs.trackNumber ?? 0). \(songs.trackName ?? "")"
         }
     }
     

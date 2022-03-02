@@ -9,14 +9,17 @@ import Foundation
 import Alamofire
 
 class APIService {
-    
     static let shared = APIService()
     
     func fetchAlbums(searchText:  String, complitionHandler: @escaping ([Albums]) -> ()) {
         let iTunesSearchURL = "https://itunes.apple.com/search"
         let parameters = ["term": searchText, "media": "music", "entity": "album"]
         
-        AF.request(iTunesSearchURL, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData {dataResponse in
+        AF.request(iTunesSearchURL,
+                   method: .get,
+                   parameters: parameters,
+                   encoding: URLEncoding.default,
+                   headers: nil).responseData {dataResponse in
             if let err = dataResponse.error { print("Failed to contact yahoo", err)
                 return
             }
@@ -36,7 +39,11 @@ class APIService {
         let iTunesSearchURL = "https://itunes.apple.com/lookup"
         let parameters = ["id": collectionID, "media": "music", "entity": "song"]
         
-        AF.request(iTunesSearchURL, method: .get, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseData {dataResponse in
+        AF.request(iTunesSearchURL,
+                   method: .get,
+                   parameters: parameters,
+                   encoding: URLEncoding.default,
+                   headers: nil).responseData {dataResponse in
             if let err = dataResponse.error { print("Failed to contact yahoo", err)
                 return
             }
